@@ -93,6 +93,14 @@
                                 <option value="mong_coc_be_tong">Móng dọc, nền bê tông cốt thép</option>
                             </select>
                         </p>
+                        <p>
+                            <select class="w3-input w3-padding-16 w3-border" required name="typeOfWall">
+                                <option value="" disabled selected>Chọn loại tường</option>
+                                <option value="tuong_10">Tường dày 10 cm</option>
+                                <option value="tuong_20">Tường dày 20 cm</option>
+                                <option value="tuong_30">Tường dày 30 cm</option>
+                            </select>
+                        </p>
                         <p class="w3-padding-16">Lợp mái hay sân thượng? 
                             <input class="w3-radio" type="radio" name="typeOfCeiling" value="lop_mai" onclick="handleClickRadio(this)" required>
                             <label for="roof">Lợp mái</label>

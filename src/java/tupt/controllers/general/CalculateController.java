@@ -31,7 +31,8 @@ public class CalculateController extends HttpServlet {
         try {
             int numOfFloors = Integer.parseInt(request.getParameter("numOfFloors"));
             int areaOfFloor = Integer.parseInt(request.getParameter("areaOfFloor"));
-            String substructure = request.getParameter("substructure");     
+            String substructure = request.getParameter("substructure");
+            String typeOfWall = request.getParameter("typeOfWall");
             String typeOfCeiling = request.getParameter("typeOfCeiling");
             
             String roof = request.getParameter("roof");
@@ -43,14 +44,21 @@ public class CalculateController extends HttpServlet {
             String areaOfCover = request.getParameter("areaOfCover");
             String areaOfNoCover = request.getParameter("areaOfNoCover");
             
-            HouseDTO dto = new HouseDTO(numOfFloors, areaOfFloor, substructure, roof, simpleTerrace != null,
+            HouseDTO dto = new HouseDTO(numOfFloors, areaOfFloor, substructure, typeOfWall, roof, simpleTerrace != null,
                     areaOfTum.equals("") ? 0 : Integer.parseInt(areaOfTum), areaOfFlower.equals("") ? 0 : Integer.parseInt(areaOfFlower),
                     areaOfLam.equals("") ? 0 : Integer.parseInt(areaOfLam), areaOfCover.equals("") ? 0 : Integer.parseInt(areaOfCover),
                     areaOfNoCover.equals("") ? 0 : Integer.parseInt(areaOfNoCover));
             double totalConstructionArea = dto.totalConstructionArea();
             String quality = request.getParameter("quality");
             
-            System.out.println(totalConstructionArea);
+            System.out.println("total area: " + totalConstructionArea);
+            System.out.println("wall: " + dto.wallArea());
+            System.out.println("cement: " + dto.cementMass());
+            System.out.println("rock: " + dto.rockVolume());
+            System.out.println("sand: " + dto.sandVolume());
+            System.out.println("steel: " + dto.steelMass());
+            System.out.println("bricks: " + dto.numberOfBricks());
+            System.out.println("tiles: " + dto.numberOfTiles());
             
         } catch (Exception e) {
             e.printStackTrace();
