@@ -79,11 +79,11 @@
         <div class="w3-sand w3-grayscale w3-large">
             <div class="w3-container" id="where" style="padding-bottom:32px;">
                 <div class="w3-content" style="max-width:700px">
-                    <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">CONSTRUCTION COST ESTIMATOR</span></h5>
-                    <p>Chúng tôi <span class="w3-tag">BYH</span> sẽ giúp bạn ước tính số lượng vật liệu xây dựng cần thiết và chi phí cho ngôi nhà của bạn.</p>
+                    <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">FURNITURE SUGGESTION</span></h5>
+                    <p>Chúng tôi <span class="w3-tag">BYH</span> sẽ gợi ý những cách lựa chọn nội thất không những đáp ứng được sở thích mà còn hợp phong thủy cho căn nhà của bạn.</p>
                     <form action="MainController" method="POST">
-                        <p><input class="w3-input w3-padding-16 w3-border" type="number" placeholder="Nhà của bạn có mấy tầng?" required name="numOfFloors"></p>
-                        <p><input class="w3-input w3-padding-16 w3-border" type="number" placeholder="Diện tích sàn là bao nhiêu? (m2)" required name="areaOfFloor"></p>
+                        <p><input class="w3-input w3-padding-16 w3-border" type="number" placeholder="Hãy nhập năm sinh (Âm lịch) của bạn?" min="1900" max="3000" required name="yearOfBirth"></p>
+<!--                        <p><input class="w3-input w3-padding-16 w3-border" type="number" placeholder="Diện tích sàn là bao nhiêu? (m2)" required name="areaOfFloor"></p>
                         <p>
                             <select class="w3-input w3-padding-16 w3-border" required name="substructure">
                                 <option value="" disabled selected>Chọn loại móng</option>
@@ -151,11 +151,11 @@
                                 <option value="medium_quality">Phổ thông</option>
                                 <option value="high_quality">Tốt</option>
                             </select>
-                        </p>
+                        </p>-->
 
                         <!--<p><input class="w3-input w3-padding-16 w3-border" type="datetime-local" placeholder="Date and time" required name="date" value="2017-11-16T20:00"></p>-->
 
-                        <p><input class="w3-button w3-black" type="submit" name="btnAction" value="Calculate"></p>
+                        <p><input class="w3-button w3-black" type="submit" name="btnAction" value="Suggest"></p>
                     </form>
                 </div>
             </div>

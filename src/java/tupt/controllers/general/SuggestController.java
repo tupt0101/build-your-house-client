@@ -12,40 +12,28 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import tupt.utils.FengShuiHelper;
 
 /**
  *
  * @author sherl
  */
-@WebServlet(name = "MainController", urlPatterns = {"/MainController"})
-public class MainController extends HttpServlet {
+@WebServlet(name = "SuggestController", urlPatterns = {"/SuggestController"})
+public class SuggestController extends HttpServlet {
 
-    private static final String LOGIN = "LoginController";
-    private static final String SEARCH = "SearchController";
-    private static final String CALCULATE = "CalculateController";
-    private static final String SUGGEST = "SuggestController";
     private static final String ERROR = "error.jsp";
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        
         String url = ERROR;
         try {
-            String action = request.getParameter("btnAction");
-            if (action.equals("Login")) {
-                url = LOGIN;
-            } else if (action.equals("Search")) {
-                url = SEARCH;
-            } else if (action.equals("Calculate")) {
-                url = CALCULATE;
-            } else if (action.equals("Suggest")) {
-                url = SUGGEST;
-            } else {
-                request.setAttribute("ERROR", "Your action is not supported!");
-            }
+            String yob = request.getParameter("yearOfBirth");
+            String fate = FengShuiHelper.findFateFromYOB(Integer.parseInt(yob));
+            System.out.println(fate.equals("Thổ"));
         } catch (Exception e) {
-            log("Error at MainController: " + e);
+            e.printStackTrace();
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
