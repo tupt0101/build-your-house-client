@@ -6,13 +6,19 @@
 package tupt.controllers.general;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import tupt.clients.ProductClient;
+import tupt.constants.HouseConstant;
 import tupt.dtos.HouseDTO;
+import tupt.dtos.Product;
+import tupt.dtos.StatisticDTO;
+import tupt.utils.SelectProductHelper;
 
 /**
  *
@@ -21,6 +27,7 @@ import tupt.dtos.HouseDTO;
 @WebServlet(name = "CalculateController", urlPatterns = {"/CalculateController"})
 public class CalculateController extends HttpServlet {
 
+    private static final String SUCCESS = "index.jsp";
     private static final String ERROR = "error.jsp";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -51,15 +58,25 @@ public class CalculateController extends HttpServlet {
             double totalConstructionArea = dto.totalConstructionArea();
             String quality = request.getParameter("quality");
             
-            System.out.println("total area: " + totalConstructionArea);
-            System.out.println("wall: " + dto.wallArea());
-            System.out.println("cement: " + dto.cementMass());
-            System.out.println("rock: " + dto.rockVolume());
-            System.out.println("sand: " + dto.sandVolume());
-            System.out.println("steel: " + dto.steelMass());
-            System.out.println("bricks: " + dto.numberOfBricks());
-            System.out.println("tiles: " + dto.numberOfTiles());
+            SelectProductHelper helper = new SelectProductHelper(quality);
+            List<Product> selectedProducts = helper.getListProduct();
             
+            for (Product selectedProduct : selectedProducts) {
+                System.out.println(selectedProduct.getPrice());
+            }
+            
+            int totalPrice = (int) (dto.cementMass()*selectedProducts.get(0).getPrice()
+                    + dto.rockVolume()*selectedProducts.get(1).getPrice()
+                    + dto.sandVolume()*selectedProducts.get(2).getPrice()
+                    + dto.steelMass()*selectedProducts.get(3).getPrice()
+                    + dto.numberOfBricks()*selectedProducts.get(4).getPrice()
+                    + dto.numberOfTiles()*selectedProducts.get(5).getPrice());
+                    
+            
+            request.setAttribute("RESULT", dto);
+            request.setAttribute("PRODUCTS", selectedProducts);
+            request.setAttribute("TOTAL", totalPrice);
+            url = SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

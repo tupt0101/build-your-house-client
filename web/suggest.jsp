@@ -14,6 +14,7 @@
         <title>Trang chủ | Build Your House</title>
         <link rel="icon" href="${pageContext.request.contextPath}/assets/image/logo.png"/>
         <link href="${pageContext.request.contextPath}/assets/css/main.css" rel="stylesheet" type="text/css"/>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
         <style>
             body, html {
                 height: 100%;
@@ -162,7 +163,7 @@
         </div>
 
         <!-- Footer -->
-        <footer class="w3-center w3-light-grey w3-padding-48 w3-large">
+        <footer class="w3-center w3-grey w3-padding-48 w3-large">
             <p>&#169; 2020 PHAN THANH TU</p>
         </footer>
     </body>

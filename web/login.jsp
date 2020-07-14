@@ -89,7 +89,7 @@
         </div>
 
         <!-- Footer -->
-        <footer class="w3-center w3-light-grey w3-padding-48 w3-large">
+        <footer class="w3-center w3-grey w3-padding-48 w3-large">
             <p>&#169; 2020 PHAN THANH TU</p>
         </footer>
     </body>
