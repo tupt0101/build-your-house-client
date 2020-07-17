@@ -1,6 +1,6 @@
 <%-- 
-    Document   : login
-    Created on : Jun 23, 2020, 4:12:01 AM
+    Document   : register
+    Created on : Jul 17, 2020, 3:42:07 PM
     Author     : sherl
 --%>
 
@@ -50,13 +50,15 @@
         <div class="w3-sand w3-grayscale w3-large">
             <div class="w3-container" id="where" style="padding-bottom:32px;">
                 <div class="w3-content" style="max-width:700px">
-                    <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">ĐĂNG NHẬP</span></h5>
-                    <form action="login" method="POST">
+                    <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">ĐĂNG KÝ</span></h5>
+                    <form action="register" method="POST">
                         <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Email" required name="txtEmail"></p>
+                        <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Họ và tên" required name="txtFullname"></p>
                         <p><input class="w3-input w3-padding-16 w3-border" type="password" placeholder="Mật khẩu" required name="txtPassword"></p>
-                        <p><input type="hidden" name="btnAction" value="Login"></p>
-                        <p><input class="w3-button w3-black" type="submit" value="Đăng nhập"></p>
-                        <p>Chưa có tài khoản? <a href="register.jsp">Đăng ký</a> ngay.</p>
+                        <p><input class="w3-input w3-padding-16 w3-border" type="password" placeholder="Xác nhận mật khẩu" required name="txtConfirmPassword"></p>
+                        <p><input type="hidden" name="btnAction" value="Register"></p>
+                        <p><input class="w3-button w3-black" type="submit" value="Đăng ký"></p>
+                        <p>Đã có tài khoản? <a href="login.jsp">Đăng nhập</a> ngay.</p>
                     </form>
                     <c:if test="${not empty error}">
                         <h4 style="color: red">${error}</h4>

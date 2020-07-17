@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class FengShuiHelper implements Serializable {
     
     public static String findFateFromYOB(int yob) {
-        String fateArr[] = {"Kim", "Thủy", "Hỏa", "Thổ", "Mộc"};
+        String fateArr[] = {"menh kim", "menh thuy", "menh hoa", "menh tho", "menh moc"};
         HashMap<Integer, String> fateHashMap = new HashMap<>(5);
         for (int i = 1; i <= fateArr.length; i++) {
             fateHashMap.put(i, fateArr[i-1]);

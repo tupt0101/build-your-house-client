@@ -22,7 +22,7 @@ import tupt.dtos.Registration;
  *
  * @author sherl
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
+@WebServlet(name = "LoginController", urlPatterns = {"/login"})
 public class LoginController extends HttpServlet {
 
     private static final String SUCCESS = "admin.jsp";
@@ -45,6 +45,7 @@ public class LoginController extends HttpServlet {
                 HttpSession session = request.getSession();
                 String fullname[] = dto.getFullname().split(" ");
                 session.setAttribute("USER", fullname[fullname.length - 1]);
+                session.setAttribute("ACC", dto);
                 url = SUCCESS;
             } else {
                 request.setAttribute("ERROR", "Your email or password is invalid!");

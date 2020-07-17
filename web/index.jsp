@@ -39,6 +39,9 @@
     </head>
     <body>
         <c:set var="user" value="${sessionScope.USER}" />
+        <c:if test="${empty user}">
+            <jsp:forward page="login.jsp" />
+        </c:if>
         <!-- Links (sit on top) -->
         <div class="w3-top">
             <div class="w3-row w3-padding w3-black">
@@ -46,7 +49,7 @@
                     <a href="index.jsp" class="w3-button w3-block w3-black">TRANG CHỦ</a>
                 </div>
                 <div class="w3-col s3">
-                    <a href="suggest.jsp" class="w3-button w3-block w3-black">TƯ VẤN TRANG TRÍ</a>
+                    <a href="suggest" class="w3-button w3-block w3-black">TƯ VẤN TRANG TRÍ</a>
                 </div>
                 <div class="w3-col s3">
                     <a href="#" class="w3-button w3-block w3-black">TÌM KIẾM</a>
@@ -81,7 +84,7 @@
         <div class="w3-sand w3-large">
             <div class="w3-container" style="padding-bottom:32px;">
                 <div class="w3-content" style="max-width:700px">
-                    <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">CONSTRUCTION COST ESTIMATOR</span></h5>
+                    <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">ƯỚC TÍNH CHI PHÍ VẬT LIỆU XÂY DỰNG</span></h5>
                     <p>Chúng tôi <span class="w3-tag">BYH</span> sẽ giúp bạn ước tính số lượng vật liệu xây dựng cần thiết và chi phí cho ngôi nhà của bạn.</p>
                     <form action="MainController" method="POST">
                         <p><input class="w3-input w3-padding-16 w3-border" type="number" placeholder="Nhà của bạn có mấy tầng?" required name="numOfFloors"></p>
@@ -157,7 +160,8 @@
 
                         <!--<p><input class="w3-input w3-padding-16 w3-border" type="datetime-local" placeholder="Date and time" required name="date" value="2017-11-16T20:00"></p>-->
 
-                        <p><input class="w3-button w3-black" type="submit" name="btnAction" value="Calculate"></p>
+                        <p><input class="w3-button w3-black" type="hidden" name="btnAction" value="Calculate"></p>
+                        <p class="w3-center"><input class="w3-button w3-black" type="submit" value="Xem kết quả"></p>
                     </form>
                 </div>
             </div>
@@ -166,10 +170,10 @@
             <c:set var="products" value="${requestScope.PRODUCTS}"/>
             <c:if test="${not empty result}">
                 <div class="w3-container">
-                    <div class="w3-content" style="max-width:700px">
+                    <div class="w3-content" style="max-width:800px">
                         <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">KẾT QUẢ</span></h5>
 
-                        <table class="w3-table w3-bordered">
+                        <table class="w3-table-all w3-bordered">
                             <thead>
                                 <tr>
                                     <th>STT</th>

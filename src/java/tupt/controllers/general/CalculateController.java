@@ -6,18 +6,14 @@
 package tupt.controllers.general;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import tupt.clients.ProductClient;
-import tupt.constants.HouseConstant;
 import tupt.dtos.HouseDTO;
 import tupt.dtos.Product;
-import tupt.dtos.StatisticDTO;
 import tupt.utils.SelectProductHelper;
 
 /**
@@ -55,7 +51,6 @@ public class CalculateController extends HttpServlet {
                     areaOfTum.equals("") ? 0 : Integer.parseInt(areaOfTum), areaOfFlower.equals("") ? 0 : Integer.parseInt(areaOfFlower),
                     areaOfLam.equals("") ? 0 : Integer.parseInt(areaOfLam), areaOfCover.equals("") ? 0 : Integer.parseInt(areaOfCover),
                     areaOfNoCover.equals("") ? 0 : Integer.parseInt(areaOfNoCover));
-            double totalConstructionArea = dto.totalConstructionArea();
             String quality = request.getParameter("quality");
             
             SelectProductHelper helper = new SelectProductHelper(quality);

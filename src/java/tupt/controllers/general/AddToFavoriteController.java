@@ -12,45 +12,53 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import tupt.clients.FavoriteClient;
+import tupt.clients.ProductClient;
+import tupt.clients.TuPTClient;
+import tupt.dtos.Favorite;
+import tupt.dtos.Product;
+import tupt.dtos.Registration;
 
 /**
  *
  * @author sherl
  */
-@WebServlet(name = "MainController", urlPatterns = {"/MainController"})
-public class MainController extends HttpServlet {
+@WebServlet(name = "AddToFavoriteController", urlPatterns = {"/add-to-favorite"})
+public class AddToFavoriteController extends HttpServlet {
 
-    private static final String LOGIN = "LoginController";
-    private static final String SEARCH = "SearchController";
-    private static final String CALCULATE = "CalculateController";
-    private static final String SUGGEST = "SuggestController";
-    private static final String FAVORITE = "AddToFavoriteController";
-    private static final String ERROR = "error.jsp";
-
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String url = ERROR;
         try {
-            String action = request.getParameter("btnAction");
-            if (action.equals("Login")) {
-                url = LOGIN;
-            } else if (action.equals("Search")) {
-                url = SEARCH;
-            } else if (action.equals("Calculate")) {
-                url = CALCULATE;
-            } else if (action.equals("Suggest")) {
-                url = SUGGEST;
-            } else if (action.equals("AddToFavorite")) {
-                url = FAVORITE;
-            } else {
-                request.setAttribute("ERROR", "Your action is not supported!");
-            }
+            String productID = request.getParameter("productID");
+            System.out.println("productID: " + productID);
+            
+            FavoriteClient favoriteClient = new FavoriteClient();
+            ProductClient productClient = new ProductClient();
+            TuPTClient tuptClient = new TuPTClient();
+            
+            Product product = productClient.find_XML(Product.class, productID);
+            HttpSession session = request.getSession();
+            Registration account = (Registration) session.getAttribute("ACC");
+            
+            Favorite favorite = new Favorite();
+            favorite.setProductID(product);
+            favorite.setAccountID(account);
+            favorite = favoriteClient.createFavorite_XML(favorite, Favorite.class);
+            System.out.println(favorite.getId());
         } catch (Exception e) {
-            log("Error at MainController: " + e);
-        } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            e.printStackTrace();
         }
     }
 

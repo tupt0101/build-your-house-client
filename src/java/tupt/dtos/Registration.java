@@ -16,11 +16,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Registration {
     private int id;
     private String fullname, email, password, role;
-    private String active;
+    private boolean active;
 
     public Registration() {
     }
 
+    public Registration(int id, String fullname, String email, String password, String role, boolean active) {
+        this.id = id;
+        this.fullname = fullname;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.active = active;
+    }
+    
     @XmlElement
     public int getId() {
         return id;
@@ -67,11 +76,11 @@ public class Registration {
     }
 
     @XmlElement
-    public String getActive() {
+    public boolean getActive() {
         return active;
     }
 
-    public void setActive(String active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
     

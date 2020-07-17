@@ -6,25 +6,27 @@
 package tupt.controllers.general;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import tupt.clients.AnswerClient;
+import tupt.clients.QuestionClient;
+import tupt.dtos.Answer;
+import tupt.dtos.QADTO;
+import tupt.dtos.Question;
 
 /**
  *
  * @author sherl
  */
-@WebServlet(name = "MainController", urlPatterns = {"/MainController"})
-public class MainController extends HttpServlet {
+@WebServlet(name = "InitSuggestionController", urlPatterns = {"/suggest"})
+public class InitSuggestionController extends HttpServlet {
 
-    private static final String LOGIN = "LoginController";
-    private static final String SEARCH = "SearchController";
-    private static final String CALCULATE = "CalculateController";
-    private static final String SUGGEST = "SuggestController";
-    private static final String FAVORITE = "AddToFavoriteController";
+    private static final String SUCCESS = "suggest.jsp";
     private static final String ERROR = "error.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -33,22 +35,26 @@ public class MainController extends HttpServlet {
 
         String url = ERROR;
         try {
-            String action = request.getParameter("btnAction");
-            if (action.equals("Login")) {
-                url = LOGIN;
-            } else if (action.equals("Search")) {
-                url = SEARCH;
-            } else if (action.equals("Calculate")) {
-                url = CALCULATE;
-            } else if (action.equals("Suggest")) {
-                url = SUGGEST;
-            } else if (action.equals("AddToFavorite")) {
-                url = FAVORITE;
-            } else {
-                request.setAttribute("ERROR", "Your action is not supported!");
+            QuestionClient questionClient = new QuestionClient();
+            AnswerClient answerClient = new AnswerClient();
+            
+            List<Question> listQuestionFromDB = questionClient.findAll_XML();
+            List<Answer> listAnswerFromDB = answerClient.findAll_XML();
+            
+            List<QADTO> qaList = new ArrayList<>();
+            for (Question question : listQuestionFromDB) {
+                List<Answer> ansOfQues = new ArrayList<>();
+                for (Answer answer : listAnswerFromDB) {
+                    if (question.getId() == answer.getQuestionID().getId()) {
+                        ansOfQues.add(answer);
+                    }
+                }
+                qaList.add(new QADTO(question, ansOfQues));
             }
+            request.setAttribute("QA", qaList);
+            url = SUCCESS;
         } catch (Exception e) {
-            log("Error at MainController: " + e);
+            e.printStackTrace();
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

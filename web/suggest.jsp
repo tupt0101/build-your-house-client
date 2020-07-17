@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -34,6 +35,42 @@
             .hidden {
                 display: none;
             }
+            .imgContainer {
+                position: relative;
+                width: 100%;
+            }
+            .imgProduct {
+                opacity: 1;
+                display: block;
+                width: 100%;
+                height: auto;
+                transition: .5s ease;
+                backface-visibility: hidden;
+            }
+            .middle {
+                transition: .5s ease;
+                opacity: 0;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                text-align: center;
+            }
+
+            .imgContainer:hover .imgProduct {
+                opacity: 0.5;
+            }
+
+            .imgContainer:hover .middle {
+                opacity: 1;
+            }
+
+            .text {
+                background-color: #000000;
+                color: white;
+                font-size: 14px;
+            }
         </style>
     </head>
     <body>
@@ -45,7 +82,7 @@
                     <a href="index.jsp" class="w3-button w3-block w3-black">TRANG CHỦ</a>
                 </div>
                 <div class="w3-col s3">
-                    <a href="suggest.jsp" class="w3-button w3-block w3-black">TƯ VẤN TRANG TRÍ</a>
+                    <a href="suggest" class="w3-button w3-block w3-black">TƯ VẤN TRANG TRÍ</a>
                 </div>
                 <div class="w3-col s3">
                     <a href="#" class="w3-button w3-block w3-black">TÌM KIẾM</a>
@@ -77,89 +114,107 @@
             </div>
         </header>
 
-        <div class="w3-sand w3-grayscale w3-large">
+        <div class="w3-sand w3-large">
             <div class="w3-container" id="where" style="padding-bottom:32px;">
                 <div class="w3-content" style="max-width:700px">
-                    <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">FURNITURE SUGGESTION</span></h5>
+                    <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">GỢI Ý CHỌN GẠCH LÁT NỀN</span></h5>
                     <p>Chúng tôi <span class="w3-tag">BYH</span> sẽ gợi ý những cách lựa chọn nội thất không những đáp ứng được sở thích mà còn hợp phong thủy cho căn nhà của bạn.</p>
-                    <form action="MainController" method="POST">
-                        <p><input class="w3-input w3-padding-16 w3-border" type="number" placeholder="Hãy nhập năm sinh (Âm lịch) của bạn?" min="1900" max="3000" required name="yearOfBirth"></p>
-<!--                        <p><input class="w3-input w3-padding-16 w3-border" type="number" placeholder="Diện tích sàn là bao nhiêu? (m2)" required name="areaOfFloor"></p>
-                        <p>
-                            <select class="w3-input w3-padding-16 w3-border" required name="substructure">
-                                <option value="" disabled selected>Chọn loại móng</option>
-                                <option value="mong_don">Móng đơn</option>
-                                <option value="mong_bang">Móng băng, đóng bè</option>
-                                <option value="mong_coc">Móng cọc</option>
-                                <option value="mong_coc_be_tong">Móng dọc, nền bê tông cốt thép</option>
-                            </select>
-                        </p>
-                        <p>
-                            <select class="w3-input w3-padding-16 w3-border" required name="typeOfWall">
-                                <option value="" disabled selected>Chọn loại tường</option>
-                                <option value="tuong_10">Tường dày 10 cm</option>
-                                <option value="tuong_20">Tường dày 20 cm</option>
-                                <option value="tuong_30">Tường dày 30 cm</option>
-                            </select>
-                        </p>
-                        <p class="w3-padding-16">Lợp mái hay sân thượng? 
-                            <input class="w3-radio" type="radio" name="typeOfCeiling" value="lop_mai" onclick="handleClickRadio(this)" required>
-                            <label for="roof">Lợp mái</label>
-                            <input class="w3-radio " type="radio" name="typeOfCeiling" value="san_thuong" onclick="handleClickRadio(this)">
-                            <label for="terrace">Sân thượng</label>
-                        </p>
-                        <div id="roof-block" class="hidden">
-                            <p class="w3-padding-16">
-                                <input class="w3-radio" type="radio" name="roof" value="mai_chong_tham">
-                                <label for="roof">Mái láng chống thấm, xây cao</label>
+                    <c:set var="qaList" value="${requestScope.QA}"/>
+                    <c:if test="${not empty qaList}">
+                        <form action="MainController" method="POST">
+                            <p>
+                                <select class="w3-input w3-padding-16 w3-border" required name="quality">
+                                    <option value="" disabled selected>Chọn chất lượng vật liệu</option>
+                                    <option value="low_quality">Thấp</option>
+                                    <option value="medium_quality">Phổ thông</option>
+                                    <option value="high_quality">Tốt</option>
+                                </select>
                             </p>
-                            <p class="w3-padding-16">
-                                <input class="w3-radio" type="radio" name="roof" value="mai_chong_nong">
-                                <label for="roof">Mái chống nóng, xây cao</label>
-                            </p>
-                            <p class="w3-padding-16">
-                                <input class="w3-radio" type="radio" name="roof" value="mai_ngoi_tran_gia">
-                                <label for="roof">Mái ngói, trần giả</label>
-                            </p>
-                            <p class="w3-padding-16">
-                                <input class="w3-radio" type="radio" name="roof" value="mai_ngoi_tran_thach_cao">
-                                <label for="roof">Mái ngói, trần thạch cao</label>
-                            </p>
-                            <p class="w3-padding-16">
-                                <input class="w3-radio" type="radio" name="roof" value="mai_ngoi_be_tong">
-                                <label for="roof">Mái ngói, đổ sàn bê tông</label>
-                            </p>
-                            <p class="w3-padding-16">
-                                <input class="w3-radio" type="radio" name="roof" value="mai_ton">
-                                <label for="roof">Mái tôn</label>
-                            </p>
-                        </div>
-                        <div id="terrace-block" class="hidden">
-                            <p class="w3-padding-16">
-                                <input id="cbx" class="w3-check" type="checkbox" name="simpleTerrace" value="simpleTerrace" onclick="handleClickCheckBox()">
-                                <label for="simpleTerrace">Chỉ lát nền, xây tường bao quanh.</label>
-                            </p>
-                            <p><input id="tum" class="w3-input w3-padding-16 w3-border" type="number" name="areaOfTum" placeholder="Diện tích tầng tum (nếu có)"></p>
-                            <p><input id="flower" class="w3-input w3-padding-16 w3-border" type="number" name="areaOfFlower" placeholder="Diện tích sàn có giàn hoa (nếu có)"></p>
-                            <p><input id="lam" class="w3-input w3-padding-16 w3-border" type="number" name="areaOfLam" placeholder="Diện tích sàn có giàn lam (nếu có)"></p>
-                            <p><input id="cover" class="w3-input w3-padding-16 w3-border" type="number" name="areaOfCover" placeholder="Diện tích sàn có mái che (nếu có)"></p>
-                            <p><input id="no-cover" class="w3-input w3-padding-16 w3-border" type="number" name="areaOfNoCover" placeholder="Diện tích sàn không có mái che (nếu có)"></p>
-                        </div>
-                        <p>
-                            <select class="w3-input w3-padding-16 w3-border" required name="quality">
-                                <option value="" disabled selected>Chọn chất lượng vật liệu</option>
-                                <option value="low_quality">Thấp</option>
-                                <option value="medium_quality">Phổ thông</option>
-                                <option value="high_quality">Tốt</option>
-                            </select>
-                        </p>-->
+                            <c:forEach items="${qaList}" var="qaDTO" varStatus="counter">
+                                <c:if test="${empty qaDTO.getListAnswer()}">
+                                    <p class="w3-padding-16">
+                                        ${counter.count}. ${qaDTO.getQuestion().getName()}<br>
+                                        <input class="w3-input w3-padding-16 w3-border" type="number" min="1900" max="3000" required name="yearOfBirth">
+                                    </p>
+                                </c:if>
+                                <c:if test="${not empty qaDTO.getListAnswer()}">
+                                    <p class="w3-padding-16">
+                                        ${counter.count}. ${qaDTO.getQuestion().getName()}<br>
+                                        <input class="w3-radio" type="radio" name="ansOfQues${qaDTO.getQuestion().getId()}" value="${qaDTO.getListAnswer().get(0).getId()}" required>
+                                        <label for="roof">${qaDTO.getListAnswer().get(0).getName()}</label><br>
+                                        <input class="w3-radio " type="radio" name="ansOfQues${qaDTO.getQuestion().getId()}" value="${qaDTO.getListAnswer().get(1).getId()}">
+                                        <label for="terrace">${qaDTO.getListAnswer().get(1).getName()}</label>
+                                    </p>
+                                </c:if>
+                            </c:forEach>
+                            <p><input type="hidden" name="btnAction" value="Suggest"></p>
+                            <p class="w3-center"><input class="w3-button w3-black" type="submit" value="Xem kết quả"></p>
+                        </form>
+                    </c:if>
 
-                        <!--<p><input class="w3-input w3-padding-16 w3-border" type="datetime-local" placeholder="Date and time" required name="date" value="2017-11-16T20:00"></p>-->
-
-                        <p><input class="w3-button w3-black" type="submit" name="btnAction" value="Suggest"></p>
-                    </form>
                 </div>
             </div>
+
+            <c:set var="result" value="${requestScope.RESULT}"/>
+            <c:set var="products" value="${requestScope.PRODUCTS}"/>
+            <c:if test="${not empty result}">
+                <div class="w3-container">
+                    <div class="w3-content" style="max-width:900px">
+                        <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">DANH SÁCH SẢN PHẨM</span></h5>
+                        <div>
+                            <div class="w3-row">
+                                <fmt:setLocale value="vi_VN"/>
+                                <c:forEach items="${result}"  var="prod" varStatus="counter">
+                                    <div class="w3-container w3-third" style="margin-bottom: 22px">
+                                        <div class="w3-card-4">
+                                            <div class="imgContainer">
+                                                <img src="${prod.getImageUrl()}" style="width: 100%" class="imgProduct" />
+                                                <div class="middle">
+                                                    <div class="text">
+                                                        <form action="MainController" method="POST">
+                                                            <input type="hidden" name="productID" value="${prod.getId()}"/>
+                                                            <input type="hidden" name="btnAction" value="AddToFavorite"/>
+                                                            <input class="w3-button w3-hover-red" type="button" value="Yêu thích" onclick="addToFavorite(${prod.getId()})"/>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h4>
+                                            <a href="${prod.getUrl()}" style="color: red; font-weight: bold; text-decoration: none" target="blank">${prod.getName()}</a>
+                                        </h4>
+                                        <div style="font-size: 14px">
+                                            <strong>Kích thước: </strong>
+                                            <span class="w3-tag w3-round w3-white" style="padding:3px">
+                                                <span class="w3-tag w3-round w3-white w3-border w3-border-gray">
+                                                    ${prod.getSize()} cm
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div style="font-size: 14px">
+                                            <strong>Màu: </strong>
+                                            <span class="w3-tag w3-round w3-white" style="padding:3px">
+                                                <span class="w3-tag w3-round w3-white w3-border w3-border-gray">
+                                                    ${prod.getColor()}
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div class="w3-right-align" style="font-weight: bold">
+                                            <span style="font-size: 20px "><fmt:formatNumber value="${prod.getPrice()}" type="currency"/></span>
+                                            <c:set var="unit" value="${prod.getUnit()}"/>
+                                            <c:if test="${not unit.equals('NG')}">
+                                                <span style="font-size: 14px">/ ${unit}</span>
+                                            </c:if>
+                                        </div>
+                                    </div>
+
+
+                                </c:forEach>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
         </div>
 
         <!-- Footer -->
@@ -167,32 +222,33 @@
             <p>&#169; 2020 PHAN THANH TU</p>
         </footer>
     </body>
-    <script>
-        function handleClickRadio(radio) {
-            if (radio.value === 'lop_mai') {
-                document.getElementById("roof-block").style.display = "block";
-                document.getElementById("terrace-block").style.display = "none";
-            } else if (radio.value === 'san_thuong') {
-                document.getElementById("roof-block").style.display = "none";
-                document.getElementById("terrace-block").style.display = "block";
+    <script type="text/javascript">
+        function getXmlHttpObject() {
+            var xmlHttp = null;
+            try {
+                // Firefox, Opera 8.0 +, Safari
+                xmlHttp = new XMLHttpRequest();
+            } catch (e) {
+                // IE
+                try {
+                    xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+                } catch (e) {
+                    xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
             }
+            return xmlHttp;
         }
 
-        function handleClickCheckBox() {
-            var cbx = document.getElementById('cbx');
-            if (cbx.checked == true) {
-                document.getElementById('tum').disabled = true;
-                document.getElementById('flower').disabled = true;
-                document.getElementById('lam').disabled = true;
-                document.getElementById('cover').disabled = true;
-                document.getElementById('no-cover').disabled = true;
-            } else {
-                document.getElementById('tum').disabled = false;
-                document.getElementById('flower').disabled = false;
-                document.getElementById('lam').disabled = false;
-                document.getElementById('cover').disabled = false;
-                document.getElementById('no-cover').disabled = false;
+        function addToFavorite(productID) {
+            xmlHttp = getXmlHttpObject();
+            if (xmlHttp == null) {
+                alert("Your browser does not support AJAX!");
+                return;
             }
+            var url = "add-to-favorite?productID=";
+            url += productID;
+            xmlHttp.open("GET", url, true);
+            xmlHttp.send(null);
         }
     </script>
 </html>

@@ -12,45 +12,29 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import tupt.dtos.Registration;
 
 /**
  *
  * @author sherl
  */
-@WebServlet(name = "MainController", urlPatterns = {"/MainController"})
-public class MainController extends HttpServlet {
+@WebServlet(name = "RegisterController", urlPatterns = {"/register"})
+public class RegisterController extends HttpServlet {
 
-    private static final String LOGIN = "LoginController";
-    private static final String SEARCH = "SearchController";
-    private static final String CALCULATE = "CalculateController";
-    private static final String SUGGEST = "SuggestController";
-    private static final String FAVORITE = "AddToFavoriteController";
+    private static final String SUCCESS = "index.jsp";
     private static final String ERROR = "error.jsp";
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        
         String url = ERROR;
         try {
-            String action = request.getParameter("btnAction");
-            if (action.equals("Login")) {
-                url = LOGIN;
-            } else if (action.equals("Search")) {
-                url = SEARCH;
-            } else if (action.equals("Calculate")) {
-                url = CALCULATE;
-            } else if (action.equals("Suggest")) {
-                url = SUGGEST;
-            } else if (action.equals("AddToFavorite")) {
-                url = FAVORITE;
-            } else {
-                request.setAttribute("ERROR", "Your action is not supported!");
-            }
+            String email = request.getParameter("txtEmail");
+            String fullname = request.getParameter("txtFullname");
+            String password = request.getParameter("txtPassword");
+            Registration acc = new Registration(0, fullname, email, password, "member", true);
         } catch (Exception e) {
-            log("Error at MainController: " + e);
-        } finally {
-            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

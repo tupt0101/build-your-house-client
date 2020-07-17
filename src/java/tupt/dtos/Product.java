@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Product implements Serializable {
 
     private int id, price, category, supplier;
-    private String name, imageUrl, size, color, unit;
+    private String name, url, imageUrl, size, color, unit;
     
     public Product() {
     }
@@ -65,6 +65,15 @@ public class Product implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @XmlElement
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @XmlElement
