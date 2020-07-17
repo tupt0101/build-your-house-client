@@ -12,7 +12,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Trang chủ | Build Your House</title>
+        <title>Tư vấn trang trí | Build Your House</title>
         <link rel="icon" href="${pageContext.request.contextPath}/assets/image/logo.png"/>
         <link href="${pageContext.request.contextPath}/assets/css/main.css" rel="stylesheet" type="text/css"/>
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
@@ -82,18 +82,19 @@
                     <a href="index.jsp" class="w3-button w3-block w3-black">TRANG CHỦ</a>
                 </div>
                 <div class="w3-col s3">
-                    <a href="suggest" class="w3-button w3-block w3-black">TƯ VẤN TRANG TRÍ</a>
+                    <a href="init-question" class="w3-button w3-block w3-black">TƯ VẤN TRANG TRÍ</a>
                 </div>
                 <div class="w3-col s3">
                     <a href="#" class="w3-button w3-block w3-black">TÌM KIẾM</a>
                 </div>
                 <div class="w3-col s3">
+                    <c:set var="acc" value="${sessionScope.ACC}" />
                     <c:choose>
-                        <c:when test="${empty user}">
-                            <a href="login.jsp" class="w3-button w3-block w3-black">ĐĂNG NHẬP</a>
+                        <c:when test="${acc.getRole().equals('admin')}">
+                            <a href="admin.jsp" class="w3-button w3-block w3-black">Welcome, ${user}</a>
                         </c:when>
                         <c:otherwise>
-                            <a href="admin.jsp" class="w3-button w3-block w3-black">Welcome, ${user}</a>
+                            <a href="user.jsp" class="w3-button w3-block w3-black">Welcome, ${user}</a>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -121,7 +122,7 @@
                     <p>Chúng tôi <span class="w3-tag">BYH</span> sẽ gợi ý những cách lựa chọn nội thất không những đáp ứng được sở thích mà còn hợp phong thủy cho căn nhà của bạn.</p>
                     <c:set var="qaList" value="${requestScope.QA}"/>
                     <c:if test="${not empty qaList}">
-                        <form action="MainController" method="POST">
+                        <form action="suggest" method="POST">
                             <p>
                                 <select class="w3-input w3-padding-16 w3-border" required name="quality">
                                     <option value="" disabled selected>Chọn chất lượng vật liệu</option>
@@ -147,7 +148,6 @@
                                     </p>
                                 </c:if>
                             </c:forEach>
-                            <p><input type="hidden" name="btnAction" value="Suggest"></p>
                             <p class="w3-center"><input class="w3-button w3-black" type="submit" value="Xem kết quả"></p>
                         </form>
                     </c:if>

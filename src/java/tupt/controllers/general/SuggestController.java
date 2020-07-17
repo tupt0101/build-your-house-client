@@ -15,24 +15,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import tupt.clients.AnswerClient;
 import tupt.clients.ProductClient;
 import tupt.clients.TagAnswerClient;
 import tupt.clients.TagClient;
 import tupt.constants.HouseConstant;
-import tupt.dtos.Answer;
 import tupt.dtos.Product;
 import tupt.dtos.StatisticDTO;
 import tupt.dtos.Tag;
 import tupt.dtos.TagAnswer;
 import tupt.utils.FengShuiHelper;
-import tupt.utils.SelectProductHelper;
 
 /**
  *
  * @author sherl
  */
-@WebServlet(name = "SuggestController", urlPatterns = {"/SuggestController"})
+@WebServlet(name = "SuggestController", urlPatterns = {"/suggest"})
 public class SuggestController extends HttpServlet {
 
     private static final String SUCCESS = "suggest.jsp";
@@ -47,7 +44,6 @@ public class SuggestController extends HttpServlet {
             TagClient tagClient = new TagClient();
             TagAnswerClient tagAnswerClient = new TagAnswerClient();
             ProductClient productClient = new ProductClient();
-            AnswerClient answerClient = new AnswerClient();
 
             String ansOfQues1 = request.getParameter("ansOfQues1");
             String ansOfQues2 = request.getParameter("ansOfQues2");

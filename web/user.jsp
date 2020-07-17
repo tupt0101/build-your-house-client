@@ -1,6 +1,6 @@
 <%-- 
-    Document   : index
-    Created on : Jun 23, 2020, 3:59:29 AM
+    Document   : user
+    Created on : Jul 17, 2020, 9:39:22 PM
     Author     : sherl
 --%>
 
@@ -12,7 +12,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Trang chủ | Build Your House</title>
+        <title>Trang cá nhân | Build Your House</title>
         <link rel="icon" href="${pageContext.request.contextPath}/assets/image/logo.png"/>
         <link href="${pageContext.request.contextPath}/assets/css/main.css" rel="stylesheet" type="text/css"/>
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
@@ -78,88 +78,14 @@
             </div>
             <div class="w3-display-bottomright w3-center w3-padding-large">
                 <!--<span class="w3-text-white">15 Adr street, 5015</span>-->
-                <!--<a href="login.jsp"><span class="w3-tag">Log in >></span></a>-->
+                <a href="login.jsp"><span class="w3-tag">Log out >></span></a>
             </div>
         </header>
 
         <div class="w3-sand w3-large">
             <div class="w3-container" style="padding-bottom:32px;">
                 <div class="w3-content" style="max-width:700px">
-                    <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">ƯỚC TÍNH CHI PHÍ VẬT LIỆU XÂY DỰNG</span></h5>
-                    <p>Chúng tôi <span class="w3-tag">BYH</span> sẽ giúp bạn ước tính số lượng vật liệu xây dựng cần thiết và chi phí cho ngôi nhà của bạn.</p>
-                    <form action="calculate" method="POST">
-                        <p><input class="w3-input w3-padding-16 w3-border" type="number" placeholder="Nhà của bạn có mấy tầng?" required name="numOfFloors"></p>
-                        <p><input class="w3-input w3-padding-16 w3-border" type="number" placeholder="Diện tích sàn là bao nhiêu? (m2)" required name="areaOfFloor"></p>
-                        <p>
-                            <select class="w3-input w3-padding-16 w3-border" required name="substructure">
-                                <option value="" disabled selected>Chọn loại móng</option>
-                                <option value="mong_don">Móng đơn</option>
-                                <option value="mong_bang">Móng băng, đóng bè</option>
-                                <option value="mong_coc">Móng cọc</option>
-                                <option value="mong_coc_be_tong">Móng dọc, nền bê tông cốt thép</option>
-                            </select>
-                        </p>
-                        <p>
-                            <select class="w3-input w3-padding-16 w3-border" required name="typeOfWall">
-                                <option value="" disabled selected>Chọn loại tường</option>
-                                <option value="tuong_10">Tường dày 10 cm</option>
-                                <option value="tuong_20">Tường dày 20 cm</option>
-                                <option value="tuong_30">Tường dày 30 cm</option>
-                            </select>
-                        </p>
-                        <p class="w3-padding-16">Lợp mái hay sân thượng? 
-                            <input class="w3-radio" type="radio" name="typeOfCeiling" value="lop_mai" onclick="handleClickRadio(this)" required>
-                            <label for="roof">Lợp mái</label>
-                            <input class="w3-radio " type="radio" name="typeOfCeiling" value="san_thuong" onclick="handleClickRadio(this)">
-                            <label for="terrace">Sân thượng</label>
-                        </p>
-                        <div id="roof-block" class="hidden">
-                            <p class="w3-padding-16">
-                                <input class="w3-radio" type="radio" name="roof" value="mai_chong_tham">
-                                <label for="roof">Mái láng chống thấm, xây cao</label>
-                            </p>
-                            <p class="w3-padding-16">
-                                <input class="w3-radio" type="radio" name="roof" value="mai_chong_nong">
-                                <label for="roof">Mái chống nóng, xây cao</label>
-                            </p>
-                            <p class="w3-padding-16">
-                                <input class="w3-radio" type="radio" name="roof" value="mai_ngoi_tran_gia">
-                                <label for="roof">Mái ngói, trần giả</label>
-                            </p>
-                            <p class="w3-padding-16">
-                                <input class="w3-radio" type="radio" name="roof" value="mai_ngoi_tran_thach_cao">
-                                <label for="roof">Mái ngói, trần thạch cao</label>
-                            </p>
-                            <p class="w3-padding-16">
-                                <input class="w3-radio" type="radio" name="roof" value="mai_ngoi_be_tong">
-                                <label for="roof">Mái ngói, đổ sàn bê tông</label>
-                            </p>
-                            <p class="w3-padding-16">
-                                <input class="w3-radio" type="radio" name="roof" value="mai_ton">
-                                <label for="roof">Mái tôn</label>
-                            </p>
-                        </div>
-                        <div id="terrace-block" class="hidden">
-                            <p class="w3-padding-16">
-                                <input id="cbx" class="w3-check" type="checkbox" name="simpleTerrace" value="simpleTerrace" onclick="handleClickCheckBox()">
-                                <label for="simpleTerrace">Chỉ lát nền, xây tường bao quanh.</label>
-                            </p>
-                            <p><input id="tum" class="w3-input w3-padding-16 w3-border" type="number" name="areaOfTum" placeholder="Diện tích tầng tum (nếu có)"></p>
-                            <p><input id="flower" class="w3-input w3-padding-16 w3-border" type="number" name="areaOfFlower" placeholder="Diện tích sàn có giàn hoa (nếu có)"></p>
-                            <p><input id="lam" class="w3-input w3-padding-16 w3-border" type="number" name="areaOfLam" placeholder="Diện tích sàn có giàn lam (nếu có)"></p>
-                            <p><input id="cover" class="w3-input w3-padding-16 w3-border" type="number" name="areaOfCover" placeholder="Diện tích sàn có mái che (nếu có)"></p>
-                            <p><input id="no-cover" class="w3-input w3-padding-16 w3-border" type="number" name="areaOfNoCover" placeholder="Diện tích sàn không có mái che (nếu có)"></p>
-                        </div>
-                        <p>
-                            <select class="w3-input w3-padding-16 w3-border" required name="quality">
-                                <option value="" disabled selected>Chọn chất lượng vật liệu</option>
-                                <option value="low_quality">Thấp</option>
-                                <option value="medium_quality">Phổ thông</option>
-                                <option value="high_quality">Tốt</option>
-                            </select>
-                        </p>
-                        <p class="w3-center"><input class="w3-button w3-black" type="submit" value="Xem kết quả"></p>
-                    </form>
+                    <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">DANH SÁCH YÊU THÍCH</span></h5>
                 </div>
             </div>
 
@@ -298,32 +224,4 @@
             <p>&#169; 2020 PHAN THANH TU</p>
         </footer>
     </body>
-    <script>
-        function handleClickRadio(radio) {
-            if (radio.value === 'lop_mai') {
-                document.getElementById("roof-block").style.display = "block";
-                document.getElementById("terrace-block").style.display = "none";
-            } else if (radio.value === 'san_thuong') {
-                document.getElementById("roof-block").style.display = "none";
-                document.getElementById("terrace-block").style.display = "block";
-            }
-        }
-
-        function handleClickCheckBox() {
-            var cbx = document.getElementById('cbx');
-            if (cbx.checked == true) {
-                document.getElementById('tum').disabled = true;
-                document.getElementById('flower').disabled = true;
-                document.getElementById('lam').disabled = true;
-                document.getElementById('cover').disabled = true;
-                document.getElementById('no-cover').disabled = true;
-            } else {
-                document.getElementById('tum').disabled = false;
-                document.getElementById('flower').disabled = false;
-                document.getElementById('lam').disabled = false;
-                document.getElementById('cover').disabled = false;
-                document.getElementById('no-cover').disabled = false;
-            }
-        }
-    </script>
 </html>

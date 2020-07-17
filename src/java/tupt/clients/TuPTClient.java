@@ -75,6 +75,16 @@ public class TuPTClient {
         webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML));
     }
 
+    public <T> T createAccount_XML(Object requestEntity, Class<T> responseType) throws ClientErrorException {
+        try {
+            return webTarget.path("insert").request(javax.ws.rs.core.MediaType.APPLICATION_XML)
+                    .post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), responseType);
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+    
     public void create_JSON(Object requestEntity) throws ClientErrorException {
         webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
     }

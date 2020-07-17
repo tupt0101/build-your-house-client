@@ -20,7 +20,7 @@ import tupt.utils.SelectProductHelper;
  *
  * @author sherl
  */
-@WebServlet(name = "CalculateController", urlPatterns = {"/CalculateController"})
+@WebServlet(name = "CalculateController", urlPatterns = {"/calculate"})
 public class CalculateController extends HttpServlet {
 
     private static final String SUCCESS = "index.jsp";

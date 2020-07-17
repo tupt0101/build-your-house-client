@@ -23,7 +23,7 @@ import tupt.dtos.Question;
  *
  * @author sherl
  */
-@WebServlet(name = "InitSuggestionController", urlPatterns = {"/suggest"})
+@WebServlet(name = "InitSuggestionController", urlPatterns = {"/init-question"})
 public class InitSuggestionController extends HttpServlet {
 
     private static final String SUCCESS = "suggest.jsp";

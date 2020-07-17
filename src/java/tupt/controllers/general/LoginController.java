@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import tupt.clients.TuPTClient;
-import tupt.constants.LoginConstant;
 import tupt.dtos.Registration;
 
 /**
@@ -25,7 +24,7 @@ import tupt.dtos.Registration;
 @WebServlet(name = "LoginController", urlPatterns = {"/login"})
 public class LoginController extends HttpServlet {
 
-    private static final String SUCCESS = "admin.jsp";
+    private static final String SUCCESS = "index.jsp";
     private static final String FAIL = "login.jsp";
     private static final String ERROR = "error.jsp";
 
