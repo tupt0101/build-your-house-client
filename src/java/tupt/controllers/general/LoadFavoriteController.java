@@ -6,56 +6,58 @@
 package tupt.controllers.general;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringReader;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import tupt.clients.FavoriteClient;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 import tupt.clients.ProductClient;
-import tupt.clients.TuPTClient;
-import tupt.dtos.Favorite;
-import tupt.dtos.Product;
 import tupt.dtos.Registration;
 
 /**
  *
  * @author sherl
  */
-@WebServlet(name = "AddToFavoriteController", urlPatterns = {"/add-to-favorite"})
-public class AddToFavoriteController extends HttpServlet {
+@WebServlet(name = "LoadFavoriteController", urlPatterns = {"/favorite-product"})
+public class LoadFavoriteController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private static final String SUCCESS = "user.jsp";
+    private static final String ERROR = "error";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
+        String url = ERROR;
         try {
-            String productID = request.getParameter("productID");
-            System.out.println("productID: " + productID);
-            
-            FavoriteClient favoriteClient = new FavoriteClient();
-            ProductClient productClient = new ProductClient();
-            
-            Product product = productClient.find_XML(Product.class, productID);
             HttpSession session = request.getSession();
-            Registration account = (Registration) session.getAttribute("ACC");
-            
-            Favorite favorite = new Favorite();
-            favorite.setProductID(product);
-            favorite.setAccountID(account);
-            favorite = favoriteClient.createFavorite_XML(favorite, Favorite.class);
+            Registration acc = (Registration) session.getAttribute("ACC");
+
+            if (session.getAttribute("DOC") == null) {
+                ProductClient productClient = new ProductClient();
+                String xmlData = productClient.findFavoriteProduct(acc.getId());
+                System.out.println(xmlData);
+
+                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                DocumentBuilder db = dbf.newDocumentBuilder();
+                Document doc = db.parse(new InputSource(new StringReader(xmlData)));
+
+                session.setAttribute("DOC", doc);
+                System.out.println("in");
+            }
+
+            url = SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

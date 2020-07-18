@@ -96,6 +96,13 @@ public class ProductClient {
         resource = resource.path("findProductByTag");
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(new GenericType<List<Product>>() {});
     }
+    
+    public String findFavoriteProduct(int accountID) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.queryParam("accountID", accountID);
+        resource = resource.path("findFavoriteProduct");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(String.class);
+    }
 
     public <T> T find_XML(Class<T> responseType, String id) throws ClientErrorException {
         WebTarget resource = webTarget;

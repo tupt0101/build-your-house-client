@@ -94,7 +94,7 @@
                             <a href="admin.jsp" class="w3-button w3-block w3-black">Welcome, ${user}</a>
                         </c:when>
                         <c:otherwise>
-                            <a href="user.jsp" class="w3-button w3-block w3-black">Welcome, ${user}</a>
+                            <a href="favorite-product" class="w3-button w3-block w3-black">Welcome, ${user}</a>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -161,56 +161,48 @@
                 <div class="w3-container">
                     <div class="w3-content" style="max-width:900px">
                         <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">DANH SÁCH SẢN PHẨM</span></h5>
-                        <div>
-                            <div class="w3-row">
-                                <fmt:setLocale value="vi_VN"/>
-                                <c:forEach items="${result}"  var="prod" varStatus="counter">
-                                    <div class="w3-container w3-third" style="margin-bottom: 22px">
-                                        <div class="w3-card-4">
-                                            <div class="imgContainer">
-                                                <img src="${prod.getImageUrl()}" style="width: 100%" class="imgProduct" />
-                                                <div class="middle">
-                                                    <div class="text">
-                                                        <form action="MainController" method="POST">
-                                                            <input type="hidden" name="productID" value="${prod.getId()}"/>
-                                                            <input type="hidden" name="btnAction" value="AddToFavorite"/>
-                                                            <input class="w3-button w3-hover-red" type="button" value="Yêu thích" onclick="addToFavorite(${prod.getId()})"/>
-                                                        </form>
-                                                    </div>
+                        <div class="w3-row">
+                            <fmt:setLocale value="vi_VN"/>
+                            <c:forEach items="${result}"  var="prod" varStatus="counter">
+                                <div class="w3-container w3-third" style="margin-bottom: 22px">
+                                    <div class="w3-card-4">
+                                        <div class="imgContainer">
+                                            <img src="${prod.getImageUrl()}" style="width: 100%" class="imgProduct" />
+                                            <div class="middle">
+                                                <div class="text">
+                                                    <input class="w3-button w3-hover-red" type="button" value="Yêu thích" onclick="addToFavorite(${prod.getId()})"/>
                                                 </div>
                                             </div>
                                         </div>
-                                        <h4>
-                                            <a href="${prod.getUrl()}" style="color: red; font-weight: bold; text-decoration: none" target="blank">${prod.getName()}</a>
-                                        </h4>
-                                        <div style="font-size: 14px">
-                                            <strong>Kích thước: </strong>
-                                            <span class="w3-tag w3-round w3-white" style="padding:3px">
-                                                <span class="w3-tag w3-round w3-white w3-border w3-border-gray">
-                                                    ${prod.getSize()} cm
-                                                </span>
-                                            </span>
-                                        </div>
-                                        <div style="font-size: 14px">
-                                            <strong>Màu: </strong>
-                                            <span class="w3-tag w3-round w3-white" style="padding:3px">
-                                                <span class="w3-tag w3-round w3-white w3-border w3-border-gray">
-                                                    ${prod.getColor()}
-                                                </span>
-                                            </span>
-                                        </div>
-                                        <div class="w3-right-align" style="font-weight: bold">
-                                            <span style="font-size: 20px "><fmt:formatNumber value="${prod.getPrice()}" type="currency"/></span>
-                                            <c:set var="unit" value="${prod.getUnit()}"/>
-                                            <c:if test="${not unit.equals('NG')}">
-                                                <span style="font-size: 14px">/ ${unit}</span>
-                                            </c:if>
-                                        </div>
                                     </div>
-
-
-                                </c:forEach>
-                            </div>
+                                    <h4>
+                                        <a href="${prod.getUrl()}" style="color: red; font-weight: bold; text-decoration: none" target="blank">${prod.getName()}</a>
+                                    </h4>
+                                    <div style="font-size: 14px">
+                                        <strong>Kích thước: </strong>
+                                        <span class="w3-tag w3-round w3-white" style="padding:3px">
+                                            <span class="w3-tag w3-round w3-white w3-border w3-border-gray">
+                                                ${prod.getSize()} cm
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div style="font-size: 14px">
+                                        <strong>Màu: </strong>
+                                        <span class="w3-tag w3-round w3-white" style="padding:3px">
+                                            <span class="w3-tag w3-round w3-white w3-border w3-border-gray">
+                                                ${prod.getColor()}
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="w3-right-align" style="font-weight: bold">
+                                        <span style="font-size: 20px "><fmt:formatNumber value="${prod.getPrice()}" type="currency"/></span>
+                                        <c:set var="unit" value="${prod.getUnit()}"/>
+                                        <c:if test="${not unit.equals('NG')}">
+                                            <span style="font-size: 14px">/ ${unit}</span>
+                                        </c:if>
+                                    </div>
+                                </div>
+                            </c:forEach>
                         </div>
                     </div>
                 </div>

@@ -61,7 +61,7 @@
                             <a href="admin.jsp" class="w3-button w3-block w3-black">Welcome, ${user}</a>
                         </c:when>
                         <c:otherwise>
-                            <a href="user.jsp" class="w3-button w3-block w3-black">Welcome, ${user}</a>
+                            <a href="favorite-product" class="w3-button w3-block w3-black">Welcome, ${user}</a>
                         </c:otherwise>
                     </c:choose>
                 </div>
