@@ -8,6 +8,8 @@ package tupt.clients;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+import tupt.dtos.Product;
+import tupt.dtos.Registration;
 
 /**
  * Jersey REST client generated for REST resource:FavoriteFacadeREST
@@ -83,6 +85,14 @@ public class FavoriteClient {
             return null;
         }
 
+    }
+    
+    public String findToRemove(int accountID, int productID) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.queryParam("accountID", accountID);
+        resource = resource.queryParam("productID", productID);
+        resource = resource.path("findToRemove");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(String.class);
     }
 
     public void create_JSON(Object requestEntity) throws ClientErrorException {

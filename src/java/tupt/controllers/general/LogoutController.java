@@ -7,52 +7,34 @@ package tupt.controllers.general;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringReader;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import tupt.clients.ProductClient;
-import tupt.dtos.Registration;
 
 /**
  *
  * @author sherl
  */
-@WebServlet(name = "LoadFavoriteController", urlPatterns = {"/favorite-product"})
-public class LoadFavoriteController extends HttpServlet {
+@WebServlet(name = "LogoutController", urlPatterns = {"/log-out"})
+public class LogoutController extends HttpServlet {
 
-    private static final String SUCCESS = "user.jsp";
-    private static final String ERROR = "error";
-
+    private static final String SUCCESS = "login.jsp";
+    private static final String ERROR = "error.jsp";
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        
         String url = ERROR;
         try {
-            HttpSession session = request.getSession();
-            Registration acc = (Registration) session.getAttribute("ACC");
-
-            ProductClient productClient = new ProductClient();
-            String xmlData = productClient.findFavoriteProduct(acc.getId());
-
-            if (!xmlData.equals("")) {
-                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-                DocumentBuilder db = dbf.newDocumentBuilder();
-                Document doc = db.parse(new InputSource(new StringReader(xmlData)));
-
-                session.setAttribute("DOC", doc);
-            } else {
-                session.setAttribute("DOC", null);
+            System.out.println("Log out controller.");
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                session.invalidate();
             }
-
             url = SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();

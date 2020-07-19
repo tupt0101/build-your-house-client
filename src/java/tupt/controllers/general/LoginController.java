@@ -39,7 +39,6 @@ public class LoginController extends HttpServlet {
 
             TuPTClient client = new TuPTClient();
             Registration dto = client.checkLogin(Registration.class, sha256(password), email);
-            System.out.println("data: " + dto.getFullname());
             if (dto != null) {
                 HttpSession session = request.getSession();
                 String fullname[] = dto.getFullname().split(" ");

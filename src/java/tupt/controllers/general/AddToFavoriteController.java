@@ -41,7 +41,6 @@ public class AddToFavoriteController extends HttpServlet {
 
         try {
             String productID = request.getParameter("productID");
-            System.out.println("productID: " + productID);
             
             FavoriteClient favoriteClient = new FavoriteClient();
             ProductClient productClient = new ProductClient();

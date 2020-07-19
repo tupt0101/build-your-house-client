@@ -75,6 +75,9 @@
     </head>
     <body>
         <c:set var="user" value="${sessionScope.USER}" />
+        <c:if test="${empty user}">
+            <jsp:forward page="login.jsp" />
+        </c:if>
         <!-- Links (sit on top) -->
         <div class="w3-top">
             <div class="w3-row w3-padding w3-black">
@@ -164,7 +167,7 @@
                         <div class="w3-row">
                             <fmt:setLocale value="vi_VN"/>
                             <c:forEach items="${result}"  var="prod" varStatus="counter">
-                                <div class="w3-container w3-third" style="margin-bottom: 22px">
+                                <div class="w3-container w3-third" id="${prod.getId()}" style="margin-bottom: 22px">
                                     <div class="w3-card-4">
                                         <div class="imgContainer">
                                             <img src="${prod.getImageUrl()}" style="width: 100%" class="imgProduct" />
@@ -232,6 +235,7 @@
         }
 
         function addToFavorite(productID) {
+            hideItem(productID);
             xmlHttp = getXmlHttpObject();
             if (xmlHttp == null) {
                 alert("Your browser does not support AJAX!");
@@ -241,6 +245,10 @@
             url += productID;
             xmlHttp.open("GET", url, true);
             xmlHttp.send(null);
+        }
+        
+        function hideItem(id) {
+            document.getElementById(id).style.display = "none";
         }
     </script>
 </html>

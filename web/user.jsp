@@ -115,7 +115,7 @@
             </div>
             <div class="w3-display-bottomright w3-center w3-padding-large">
                 <!--<span class="w3-text-white">15 Adr street, 5015</span>-->
-                <a href="login.jsp"><span class="w3-tag">Log out >></span></a>
+                <a href="log-out"><span class="w3-tag">Log out >></span></a>
             </div>
         </header>
 
@@ -125,51 +125,58 @@
                     <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">DANH SÁCH YÊU THÍCH</span></h5>
 
                     <c:set var="doc" value="${sessionScope.DOC}"/>
-                    <x:set var="favorites" select="$doc//favorites" scope="session"/>
-                    <div class="w3-row">
-                        <x:if select="$favorites">
-                            <x:forEach var="product" select="$favorites/product">
-                                <div class="w3-container w3-third" style="margin-bottom: 22px">
-                                    <div class="w3-card-4">
-                                        <div class="imgContainer">
-                                            <img src="<x:out select="$product/ImageUrl" />" style="width: 100%" class="imgProduct" />
-                                            <div class="middle">
-                                                <div class="text">
-                                                    <input class="w3-button w3-hover-red" type="button" value="Bỏ thích" onclick="addToFavorite(<x:out select="$product/ID"/>)"/>
+                    <c:if test="${not empty doc}">
+                        <x:set var="favorites" select="$doc//favorites" scope="session"/>
+                        <div class="w3-row">
+                            <x:if select="$favorites">
+                                <x:forEach var="product" select="$favorites/product">
+                                    <div class="w3-container w3-third" id="<x:out select="$product/ID" />" style="margin-bottom: 22px">
+                                        <div class="w3-card-4">
+                                            <div class="imgContainer">
+                                                <img src="<x:out select="$product/ImageUrl" />" style="width: 100%" class="imgProduct" />
+                                                <div class="middle">
+                                                    <div class="text">
+                                                        <input class="w3-button w3-hover-red" type="button" value="Bỏ thích" onclick="removeFavorite(<x:out select="$product/ID"/>)"/>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <h4>
-                                        <a href="<x:out select="$product/Url" />" style="color: red; font-weight: bold; text-decoration: none" target="blank"><x:out select="$product/Name" /></a>
-                                    </h4>
-                                    <div style="font-size: 14px">
-                                        <strong>Kích thước: </strong>
-                                        <span class="w3-tag w3-round w3-white" style="padding:3px">
-                                            <span class="w3-tag w3-round w3-white w3-border w3-border-gray">
-                                                <x:out select="$product/Size" /> cm
+                                        <h4>
+                                            <a href="<x:out select="$product/Url" />" style="color: red; font-weight: bold; text-decoration: none" target="blank"><x:out select="$product/Name" /></a>
+                                        </h4>
+                                        <div style="font-size: 14px">
+                                            <strong>Kích thước: </strong>
+                                            <span class="w3-tag w3-round w3-white" style="padding:3px">
+                                                <span class="w3-tag w3-round w3-white w3-border w3-border-gray">
+                                                    <x:out select="$product/Size" /> cm
+                                                </span>
                                             </span>
-                                        </span>
-                                    </div>
-                                    <div style="font-size: 14px">
-                                        <strong>Màu: </strong>
-                                        <span class="w3-tag w3-round w3-white" style="padding:3px">
-                                            <span class="w3-tag w3-round w3-white w3-border w3-border-gray">
-                                                <x:out select="$product/Color" />
+                                        </div>
+                                        <div style="font-size: 14px">
+                                            <strong>Màu: </strong>
+                                            <span class="w3-tag w3-round w3-white" style="padding:3px">
+                                                <span class="w3-tag w3-round w3-white w3-border w3-border-gray">
+                                                    <x:out select="$product/Color" />
+                                                </span>
                                             </span>
-                                        </span>
+                                        </div>
+                                        <div class="w3-right-align" style="font-weight: bold">
+                                            <span style="font-size: 20px "><fmt:formatNumber value="" type="currency"/><x:out select="$product/Price"/></span>
+                                            <x:set var="unit" select="$product/Unit"/>
+                                            <c:if test="${not unit.equals('NG')}">
+                                                <span style="font-size: 14px">/ <x:out select="$product/Unit" /></span>
+                                            </c:if>
+                                        </div>
                                     </div>
-                                    <div class="w3-right-align" style="font-weight: bold">
-                                        <span style="font-size: 20px "><fmt:formatNumber value="" type="currency"/><x:out select="$product/Price"/></span>
-                                        <x:set var="unit" select="$product/Unit"/>
-                                        <c:if test="${not unit.equals('NG')}">
-                                            <span style="font-size: 14px">/ <x:out select="$product/Unit" /></span>
-                                        </c:if>
-                                    </div>
-                                </div>
-                            </x:forEach>
-                        </x:if>
-                    </div>
+                                </x:forEach>
+                            </x:if>
+                        </div>
+                    </c:if>
+                    <c:if test="${empty doc}">
+                        <p class="w3-center">
+                            No products in favorite list. Let's add some.
+                        </p>
+                    </c:if>
                 </div>
             </div>
         </div>
@@ -179,4 +186,38 @@
             <p>&#169; 2020 PHAN THANH TU</p>
         </footer>
     </body>
+    <script type="text/javascript">
+        function getXmlHttpObject() {
+            var xmlHttp = null;
+            try {
+                // Firefox, Opera 8.0 +, Safari
+                xmlHttp = new XMLHttpRequest();
+            } catch (e) {
+                // IE
+                try {
+                    xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+                } catch (e) {
+                    xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+            }
+            return xmlHttp;
+        }
+
+        function removeFavorite(productID) {
+            hideItem(productID);
+            xmlHttp = getXmlHttpObject();
+            if (xmlHttp == null) {
+                alert("Your browser does not support AJAX!");
+                return;
+            }
+            var url = "remove-favorite?productID=";
+            url += productID;
+            xmlHttp.open("GET", url, true);
+            xmlHttp.send(null);
+        }
+
+        function hideItem(id) {
+            document.getElementById(id).style.display = "none";
+        }
+    </script>
 </html>
