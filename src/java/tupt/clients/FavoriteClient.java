@@ -8,8 +8,6 @@ package tupt.clients;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
-import tupt.dtos.Product;
-import tupt.dtos.Registration;
 
 /**
  * Jersey REST client generated for REST resource:FavoriteFacadeREST

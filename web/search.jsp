@@ -5,8 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
@@ -121,40 +122,67 @@
         <div class="w3-sand w3-large">
             <div class="w3-container" id="where" style="padding-bottom:32px;">
                 <div class="w3-content" style="max-width:800px">
-                    <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">GỢI Ý CHỌN GẠCH LÁT NỀN</span></h5>
-                    <p>Chúng tôi <span class="w3-tag">BYH</span> sẽ gợi ý những cách lựa chọn nội thất không những đáp ứng được sở thích mà còn hợp phong thủy cho căn nhà của bạn.</p>
-                    <c:set var="qaList" value="${requestScope.QA}"/>
-                    <c:if test="${not empty qaList}">
-                        <form action="suggest" method="POST">
-                            <p>
-                                <select class="w3-input w3-padding-16 w3-border" required name="quality">
-                                    <option value="" disabled selected>Chọn chất lượng vật liệu</option>
-                                    <option value="low_quality">Thấp</option>
-                                    <option value="medium_quality">Phổ thông</option>
-                                    <option value="high_quality">Tốt</option>
-                                </select>
-                            </p>
-                            <c:forEach items="${qaList}" var="qaDTO" varStatus="counter">
-                                <c:if test="${empty qaDTO.getListAnswer()}">
-                                    <p class="w3-padding-16">
-                                        ${counter.count}. ${qaDTO.getQuestion().getName()}<br>
-                                        <input class="w3-input w3-padding-16 w3-border" type="number" min="1900" max="3000" required name="yearOfBirth">
-                                    </p>
-                                </c:if>
-                                <c:if test="${not empty qaDTO.getListAnswer()}">
-                                    <p class="w3-padding-16">
-                                        ${counter.count}. ${qaDTO.getQuestion().getName()}<br>
-                                        <input class="w3-radio" type="radio" name="ansOfQues${qaDTO.getQuestion().getId()}" value="${qaDTO.getListAnswer().get(0).getId()}" required>
-                                        <label for="roof">${qaDTO.getListAnswer().get(0).getName()}</label><br>
-                                        <input class="w3-radio " type="radio" name="ansOfQues${qaDTO.getQuestion().getId()}" value="${qaDTO.getListAnswer().get(1).getId()}">
-                                        <label for="terrace">${qaDTO.getListAnswer().get(1).getName()}</label>
-                                    </p>
-                                </c:if>
-                            </c:forEach>
-                            <p class="w3-center"><input class="w3-button w3-black" type="submit" value="Xem kết quả"></p>
-                        </form>
-                    </c:if>
+                    <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">TRENDING</span></h5>
 
+                    <c:set var="doc" value="${sessionScope.TREND}"/>
+                    <c:if test="${not empty doc}">
+                        <x:set var="trend" select="$doc//trending" scope="session"/>
+                        <div class="w3-row">
+                            <x:if select="$trend">
+                                <x:forEach var="product" select="$trend/product">
+                                    <div class="w3-container w3-third" id="<x:out select="$product/ID" />" style="margin-bottom: 22px">
+                                        <div class="w3-card-4">
+                                            <div class="imgContainer">
+                                                <img src="<x:out select="$product/ImageUrl" />" style="width: 100%" class="imgProduct" />
+                                                <div class="middle">
+                                                    <div class="text">
+                                                        <input class="w3-button w3-hover-red" type="button" value="Yêu thích" onclick="addToFavorite(<x:out select="$product/ID"/>)"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h4>
+                                            <a href="<x:out select="$product/Url" />" style="color: red; font-weight: bold; text-decoration: none" target="blank"><x:out select="$product/Name" /></a>
+                                        </h4>
+                                        <div style="font-size: 14px">
+                                            <strong>Kích thước: </strong>
+                                            <span class="w3-tag w3-round w3-white" style="padding:3px">
+                                                <span class="w3-tag w3-round w3-white w3-border w3-border-gray">
+                                                    <x:out select="$product/Size" /> cm
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div style="font-size: 14px">
+                                            <strong>Màu: </strong>
+                                            <span class="w3-tag w3-round w3-white" style="padding:3px">
+                                                <span class="w3-tag w3-round w3-white w3-border w3-border-gray">
+                                                    <x:out select="$product/Color" />
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div class="w3-right-align" style="font-weight: bold">
+                                            <span style="font-size: 20px "><fmt:formatNumber value="" type="currency"/><x:out select="$product/Price"/></span>
+                                            <x:set var="unit" select="$product/Unit"/>
+                                            <c:if test="${not unit.equals('NG')}">
+                                                <span style="font-size: 14px">/ <x:out select="$product/Unit" /></span>
+                                            </c:if>
+                                        </div>
+                                    </div>
+                                </x:forEach>
+                            </x:if>
+                        </div>
+                    </c:if>
+                    <c:if test="${empty doc}">
+                        <p class="w3-center">
+                            No products on trending.
+                        </p>
+                    </c:if>
+                    <p>Chúng tôi <span class="w3-tag">BYH</span> sẽ gợi ý những cách lựa chọn nội thất không những đáp ứng được sở thích mà còn hợp phong thủy cho căn nhà của bạn.</p>
+
+                    <form action="result" method="POST">
+                        <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Tìm kiếm sản phẩm mong muốn của bạn" required name="txtSearch"></p>
+                        <p class="w3-center"><input class="w3-button w3-black" type="submit" value="Kết quả"></p>
+                    </form>
                 </div>
             </div>
 
@@ -235,7 +263,6 @@
         }
 
         function addToFavorite(productID) {
-            hideItem(productID);
             xmlHttp = getXmlHttpObject();
             if (xmlHttp == null) {
                 alert("Your browser does not support AJAX!");
@@ -245,10 +272,6 @@
             url += productID;
             xmlHttp.open("GET", url, true);
             xmlHttp.send(null);
-        }
-        
-        function hideItem(id) {
-            document.getElementById(id).style.display = "none";
         }
     </script>
 </html>

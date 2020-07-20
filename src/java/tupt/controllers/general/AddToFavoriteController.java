@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import tupt.clients.FavoriteClient;
 import tupt.clients.ProductClient;
-import tupt.clients.TuPTClient;
 import tupt.dtos.Favorite;
 import tupt.dtos.Product;
 import tupt.dtos.Registration;
@@ -42,12 +41,15 @@ public class AddToFavoriteController extends HttpServlet {
         try {
             String productID = request.getParameter("productID");
             
+            HttpSession session = request.getSession();
+            Registration account = (Registration) session.getAttribute("ACC");
+            
             FavoriteClient favoriteClient = new FavoriteClient();
             ProductClient productClient = new ProductClient();
             
             Product product = productClient.find_XML(Product.class, productID);
-            HttpSession session = request.getSession();
-            Registration account = (Registration) session.getAttribute("ACC");
+            product.setOccurrence(product.getOccurrence() + 1);
+            product = productClient.updateProduct(product, productID, Product.class);
             
             Favorite favorite = new Favorite();
             favorite.setProductID(product);

@@ -6,47 +6,27 @@
 package tupt.controllers.general;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import tupt.clients.FavoriteClient;
-import tupt.clients.ProductClient;
-import tupt.dtos.Product;
-import tupt.dtos.Registration;
 
 /**
  *
  * @author sherl
  */
-@WebServlet(name = "RemoveFromFavoriteController", urlPatterns = {"/remove-favorite"})
-public class RemoveFromFavoriteController extends HttpServlet {
+@WebServlet(name = "SearchController", urlPatterns = {"/result"})
+public class SearchController extends HttpServlet {
 
+    
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        try {
-            String productID = request.getParameter("productID");
-            
-            HttpSession session = request.getSession();
-            Registration account = (Registration) session.getAttribute("ACC");
-            
-            FavoriteClient favoriteClient = new FavoriteClient();
-            ProductClient productClient = new ProductClient();
-            
-            Product product = productClient.find_XML(Product.class, productID);
-            product.setOccurrence(product.getOccurrence() - 1);
-            product = productClient.updateProduct(product, productID, Product.class);
-            
-            String favoriteItemID = favoriteClient.findToRemove(account.getId(), Integer.parseInt(productID));
-            System.out.println(favoriteItemID);
-            favoriteClient.remove("removed item id: " + favoriteItemID);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -75,9 +75,7 @@ public class SuggestController extends HttpServlet {
 
             Comparator<Product> comparatorByPrice = (Product p1, Product p2) -> p1.getPrice() - p2.getPrice();
             Collections.sort(listProductFromDB, comparatorByPrice);
-            for (Product product : listProductFromDB) {
-                System.out.println(product.getPrice());
-            }
+            
             StatisticDTO statisticDTO = new StatisticDTO(listProductFromDB);
 
             List<Product> result = new ArrayList<>();

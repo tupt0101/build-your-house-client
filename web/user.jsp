@@ -6,8 +6,8 @@
 
 <%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html>
@@ -89,7 +89,7 @@
                     <a href="init-question" class="w3-button w3-block w3-black">TƯ VẤN TRANG TRÍ</a>
                 </div>
                 <div class="w3-col s3">
-                    <a href="#" class="w3-button w3-block w3-black">TÌM KIẾM</a>
+                    <a href="search" class="w3-button w3-block w3-black">TÌM KIẾM</a>
                 </div>
                 <div class="w3-col s3">
                     <c:set var="acc" value="${sessionScope.ACC}" />

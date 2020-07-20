@@ -35,6 +35,18 @@
             .hidden {
                 display: none;
             }
+            .imgContainer {
+                position: relative;
+                width: 100%;
+            }
+            .imgProduct {
+                opacity: 1;
+                display: block;
+                width: 100%;
+                height: auto;
+                transition: .5s ease;
+                backface-visibility: hidden;
+            }
         </style>
     </head>
     <body>
@@ -52,7 +64,7 @@
                     <a href="init-question" class="w3-button w3-block w3-black">TƯ VẤN TRANG TRÍ</a>
                 </div>
                 <div class="w3-col s3">
-                    <a href="#" class="w3-button w3-block w3-black">TÌM KIẾM</a>
+                    <a href="search" class="w3-button w3-block w3-black">TÌM KIẾM</a>
                 </div>
                 <div class="w3-col s3">
                     <c:set var="acc" value="${sessionScope.ACC}" />
@@ -84,7 +96,7 @@
 
         <div class="w3-sand w3-large">
             <div class="w3-container" style="padding-bottom:32px;">
-                <div class="w3-content" style="max-width:700px">
+                <div class="w3-content" style="max-width:800px">
                     <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">ƯỚC TÍNH CHI PHÍ VẬT LIỆU XÂY DỰNG</span></h5>
                     <p>Chúng tôi <span class="w3-tag">BYH</span> sẽ giúp bạn ước tính số lượng vật liệu xây dựng cần thiết và chi phí cho ngôi nhà của bạn.</p>
                     <form action="calculate" method="POST">
@@ -243,18 +255,20 @@
                                         <fmt:formatNumber value="${result.numberOfBricks() * products.get(4).getPrice()}" type="currency"/>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td style="text-align: left;">Ngói lợp</td>
-                                    <td>${result.numberOfTiles()}</td>
-                                    <td>viên</td>
-                                    <td>
-                                        <fmt:formatNumber value="${products.get(5).getPrice()}" type="currency"/>
-                                    </td>
-                                    <td>
-                                        <fmt:formatNumber value="${result.numberOfTiles() * products.get(5).getPrice()}" type="currency"/>
-                                    </td>
-                                </tr>
+                                <c:if test="${not (result.numberOfTiles() == 0)}">
+                                    <tr>
+                                        <td>6</td>
+                                        <td style="text-align: left;">Ngói lợp</td>
+                                        <td>${result.numberOfTiles()}</td>
+                                        <td>viên</td>
+                                        <td>
+                                            <fmt:formatNumber value="${products.get(5).getPrice()}" type="currency"/>
+                                        </td>
+                                        <td>
+                                            <fmt:formatNumber value="${result.numberOfTiles() * products.get(5).getPrice()}" type="currency"/>
+                                        </td>
+                                    </tr>
+                                </c:if>
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -269,23 +283,26 @@
                         </table>
 
                         <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">DANH SÁCH SẢN PHẨM</span></h5>
-                        <div>
-                            <div class="w3-row w3-padding">
-                                <c:forEach items="${products}"  var="prod" varStatus="counter">
-                                    <div class="w3-col s4">
-                                        <img src="${prod.getImageUrl()}" />
-                                        <p>${prod.getName()}</p>
-                                        <p>
-                                            <fmt:formatNumber value="${prod.getPrice()}" type="currency"/>
-                                            <c:set var="unit" value="${prod.getUnit()}"/>
-                                            <c:if test="${not unit.equals('NG')}">
-                                                <span>/ ${unit}</span>
-                                            </c:if>
-                                        </p>
+                        <div class="w3-row">
+                            <c:forEach items="${products}"  var="prod" varStatus="counter">
+                                <div class="w3-container w3-third" id="${prod.getId()}" style="margin-bottom: 22px">
+                                    <div class="w3-card-4">
+                                        <div class="imgContainer">
+                                            <img src="${prod.getImageUrl()}" style="width: 100%" class="imgProduct" />
+                                        </div>
                                     </div>
-
-                                </c:forEach>
-                            </div>
+                                    <h4>
+                                        <a href="${prod.getUrl()}" style="color: red; font-weight: bold; text-decoration: none" target="blank">${prod.getName()}</a>
+                                    </h4>
+                                    <div class="w3-right-align" style="font-weight: bold">
+                                        <span style="font-size: 20px "><fmt:formatNumber value="${prod.getPrice()}" type="currency"/></span>
+                                        <c:set var="unit" value="${prod.getUnit()}"/>
+                                        <c:if test="${not unit.equals('NG')}">
+                                            <span style="font-size: 14px">/ ${unit}</span>
+                                        </c:if>
+                                    </div>
+                                </div>        
+                            </c:forEach>
                         </div>
                     </div>
                 </div>

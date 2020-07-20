@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import tupt.constants.HouseConstant;
 import tupt.dtos.HouseDTO;
 import tupt.dtos.Product;
 import tupt.utils.SelectProductHelper;
@@ -56,16 +57,21 @@ public class CalculateController extends HttpServlet {
             SelectProductHelper helper = new SelectProductHelper(quality);
             List<Product> selectedProducts = helper.getListProduct();
             
-            for (Product selectedProduct : selectedProducts) {
-                System.out.println(selectedProduct.getPrice());
+            int totalPrice = 0;
+            if (typeOfCeiling.equals(HouseConstant.LOP_MAI)) {
+                totalPrice = (int) (dto.cementMass() * selectedProducts.get(0).getPrice()
+                        + dto.rockVolume() * selectedProducts.get(1).getPrice()
+                        + dto.sandVolume() * selectedProducts.get(2).getPrice()
+                        + dto.steelMass() * selectedProducts.get(3).getPrice()
+                        + dto.numberOfBricks() * selectedProducts.get(4).getPrice()
+                        + dto.numberOfTiles() * selectedProducts.get(5).getPrice());
+            } else {
+                totalPrice = (int) (dto.cementMass() * selectedProducts.get(0).getPrice()
+                        + dto.rockVolume() * selectedProducts.get(1).getPrice()
+                        + dto.sandVolume() * selectedProducts.get(2).getPrice()
+                        + dto.steelMass() * selectedProducts.get(3).getPrice()
+                        + dto.numberOfBricks() * selectedProducts.get(4).getPrice());
             }
-            
-            int totalPrice = (int) (dto.cementMass()*selectedProducts.get(0).getPrice()
-                    + dto.rockVolume()*selectedProducts.get(1).getPrice()
-                    + dto.sandVolume()*selectedProducts.get(2).getPrice()
-                    + dto.steelMass()*selectedProducts.get(3).getPrice()
-                    + dto.numberOfBricks()*selectedProducts.get(4).getPrice()
-                    + dto.numberOfTiles()*selectedProducts.get(5).getPrice());
                     
             
             request.setAttribute("RESULT", dto);

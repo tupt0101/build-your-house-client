@@ -16,8 +16,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Product implements Serializable {
 
-    private int id, price, category, supplier;
+    private int id, price, occurrence;
     private String name, url, imageUrl, size, color, unit;
+    private Category category;
+    private Supplier supplier;
     
     public Product() {
     }
@@ -41,21 +43,30 @@ public class Product implements Serializable {
     }
 
     @XmlElement
-    public int getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(int category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
     @XmlElement
-    public int getSupplier() {
+    public Supplier getSupplier() {
         return supplier;
     }
 
-    public void setSupplier(int supplier) {
+    public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
+    }
+
+    @XmlElement
+    public int getOccurrence() {
+        return occurrence;
+    }
+
+    public void setOccurrence(int occurrence) {
+        this.occurrence = occurrence;
     }
 
     @XmlElement
