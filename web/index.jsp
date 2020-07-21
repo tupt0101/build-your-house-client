@@ -285,23 +285,47 @@
                         <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">DANH SÁCH SẢN PHẨM</span></h5>
                         <div class="w3-row">
                             <c:forEach items="${products}"  var="prod" varStatus="counter">
-                                <div class="w3-container w3-third" id="${prod.getId()}" style="margin-bottom: 22px">
-                                    <div class="w3-card-4">
-                                        <div class="imgContainer">
-                                            <img src="${prod.getImageUrl()}" style="width: 100%" class="imgProduct" />
+                                <c:set var="tmp" value="${counter.count % 3}"/>
+                                <c:if test="${(tmp == 1) && (counter.count > 1)}">
+                                </div>
+                                <div class="w3-row">
+                                    <div class="w3-container w3-third" id="${prod.getId()}" style="margin-bottom: 22px">
+                                        <div class="w3-card-4">
+                                            <div class="imgContainer">
+                                                <img src="${prod.getImageUrl()}" style="width: 100%" class="imgProduct" />
+                                            </div>
                                         </div>
-                                    </div>
-                                    <h4>
-                                        <a href="${prod.getUrl()}" style="color: red; font-weight: bold; text-decoration: none" target="blank">${prod.getName()}</a>
-                                    </h4>
-                                    <div class="w3-right-align" style="font-weight: bold">
-                                        <span style="font-size: 20px "><fmt:formatNumber value="${prod.getPrice()}" type="currency"/></span>
-                                        <c:set var="unit" value="${prod.getUnit()}"/>
-                                        <c:if test="${not unit.equals('NG')}">
-                                            <span style="font-size: 14px">/ ${unit}</span>
-                                        </c:if>
-                                    </div>
-                                </div>        
+                                        <h4>
+                                            <a href="${prod.getUrl()}" style="color: red; font-weight: bold; text-decoration: none" target="blank">${prod.getName()}</a>
+                                        </h4>
+                                        <div class="w3-right-align" style="font-weight: bold">
+                                            <span style="font-size: 20px "><fmt:formatNumber value="${prod.getPrice()}" type="currency"/></span>
+                                            <c:set var="unit" value="${prod.getUnit()}"/>
+                                            <c:if test="${not unit.equals('NG')}">
+                                                <span style="font-size: 14px">/ ${unit}</span>
+                                            </c:if>
+                                        </div>
+                                    </div>   
+                                </c:if>
+                                <c:if test="${not (tmp == 1) || (counter.count == 1)}">
+                                    <div class="w3-container w3-third" id="${prod.getId()}" style="margin-bottom: 22px">
+                                        <div class="w3-card-4">
+                                            <div class="imgContainer">
+                                                <img src="${prod.getImageUrl()}" style="width: 100%" class="imgProduct" />
+                                            </div>
+                                        </div>
+                                        <h4>
+                                            <a href="${prod.getUrl()}" style="color: red; font-weight: bold; text-decoration: none" target="blank">${prod.getName()}</a>
+                                        </h4>
+                                        <div class="w3-right-align" style="font-weight: bold">
+                                            <span style="font-size: 20px "><fmt:formatNumber value="${prod.getPrice()}" type="currency"/></span>
+                                            <c:set var="unit" value="${prod.getUnit()}"/>
+                                            <c:if test="${not unit.equals('NG')}">
+                                                <span style="font-size: 14px">/ ${unit}</span>
+                                            </c:if>
+                                        </div>
+                                    </div>   
+                                </c:if>
                             </c:forEach>
                         </div>
                     </div>

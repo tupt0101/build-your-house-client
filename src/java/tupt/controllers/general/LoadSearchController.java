@@ -45,9 +45,9 @@ public class LoadSearchController extends HttpServlet {
                 DocumentBuilder db = dbf.newDocumentBuilder();
                 Document doc = db.parse(new InputSource(new StringReader(xmlData)));
 
-                session.setAttribute("TREND", doc);
+                request.setAttribute("TREND", doc);
             } else {
-                session.setAttribute("TREND", null);
+                request.setAttribute("TREND", null);
             }
             
             url = SUCCESS;

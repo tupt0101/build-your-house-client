@@ -116,6 +116,22 @@ public class ProductClient {
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(String.class);
     }
     
+    public <T> List<Product> findByLikeName(String name) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.queryParam("name", name);
+        resource = resource.path("findByLikeName");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(new GenericType<List<Product>>() {});
+    }
+    
+    public <T> List<Product> findByLikeNamePagination(String name, int pageNumber, int pageSize) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.queryParam("name", name);
+        resource = resource.queryParam("pageNumber", pageNumber);
+        resource = resource.queryParam("pageSize", pageSize);
+        resource = resource.path("findByLikeNamePagination");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(new GenericType<List<Product>>() {});
+    }
+    
     public <T> T find_XML(Class<T> responseType, String id) throws ClientErrorException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));

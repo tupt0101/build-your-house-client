@@ -121,7 +121,7 @@
         <div class="w3-sand w3-large">
             <div class="w3-container" id="where" style="padding-bottom:32px;">
                 <div class="w3-content" style="max-width:800px">
-                    <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">GỢI Ý CHỌN GẠCH LÁT NỀN</span></h5>
+                    <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">GỢI Ý CHỌN GẠCH ỐP LÁT</span></h5>
                     <p>Chúng tôi <span class="w3-tag">BYH</span> sẽ gợi ý những cách lựa chọn nội thất không những đáp ứng được sở thích mà còn hợp phong thủy cho căn nhà của bạn.</p>
                     <c:set var="qaList" value="${requestScope.QA}"/>
                     <c:if test="${not empty qaList}">
@@ -167,44 +167,89 @@
                         <div class="w3-row">
                             <fmt:setLocale value="vi_VN"/>
                             <c:forEach items="${result}"  var="prod" varStatus="counter">
-                                <div class="w3-container w3-third" id="${prod.getId()}" style="margin-bottom: 22px">
-                                    <div class="w3-card-4">
-                                        <div class="imgContainer">
-                                            <img src="${prod.getImageUrl()}" style="width: 100%" class="imgProduct" />
-                                            <div class="middle">
-                                                <div class="text">
-                                                    <input class="w3-button w3-hover-red" type="button" value="Yêu thích" onclick="addToFavorite(${prod.getId()})"/>
+                                <c:set var="tmp" value="${counter.count % 3}"/>
+                                <c:if test="${(tmp == 1) && (counter.count > 1)}">
+                                </div>
+                                <div class="w3-row">
+                                    <div class="w3-container w3-third" id="${prod.getId()}" style="margin-bottom: 22px">
+                                        <div class="w3-card-4">
+                                            <div class="imgContainer">
+                                                <img src="${prod.getImageUrl()}" style="width: 100%" class="imgProduct" />
+                                                <div class="middle">
+                                                    <div class="text">
+                                                        <input class="w3-button w3-hover-red" type="button" value="Yêu thích" onclick="addToFavorite(${prod.getId()})"/>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <h4>
-                                        <a href="${prod.getUrl()}" style="color: red; font-weight: bold; text-decoration: none" target="blank">${prod.getName()}</a>
-                                    </h4>
-                                    <div style="font-size: 14px">
-                                        <strong>Kích thước: </strong>
-                                        <span class="w3-tag w3-round w3-white" style="padding:3px">
-                                            <span class="w3-tag w3-round w3-white w3-border w3-border-gray">
-                                                ${prod.getSize()} cm
+                                        <h4>
+                                            <a href="${prod.getUrl()}" style="color: red; font-weight: bold; text-decoration: none" target="blank">${prod.getName()}</a>
+                                        </h4>
+                                        <div style="font-size: 14px">
+                                            <strong>Kích thước: </strong>
+                                            <span class="w3-tag w3-round w3-white" style="padding:3px">
+                                                <span class="w3-tag w3-round w3-white w3-border w3-border-gray">
+                                                    ${prod.getSize()} cm
+                                                </span>
                                             </span>
-                                        </span>
-                                    </div>
-                                    <div style="font-size: 14px">
-                                        <strong>Màu: </strong>
-                                        <span class="w3-tag w3-round w3-white" style="padding:3px">
-                                            <span class="w3-tag w3-round w3-white w3-border w3-border-gray">
-                                                ${prod.getColor()}
+                                        </div>
+                                        <div style="font-size: 14px">
+                                            <strong>Màu: </strong>
+                                            <span class="w3-tag w3-round w3-white" style="padding:3px">
+                                                <span class="w3-tag w3-round w3-white w3-border w3-border-gray">
+                                                    ${prod.getColor()}
+                                                </span>
                                             </span>
-                                        </span>
+                                        </div>
+                                        <div class="w3-right-align" style="font-weight: bold">
+                                            <span style="font-size: 20px "><fmt:formatNumber value="${prod.getPrice()}" type="currency"/></span>
+                                            <c:set var="unit" value="${prod.getUnit()}"/>
+                                            <c:if test="${not unit.equals('NG')}">
+                                                <span style="font-size: 14px">/ ${unit}</span>
+                                            </c:if>
+                                        </div>
                                     </div>
-                                    <div class="w3-right-align" style="font-weight: bold">
-                                        <span style="font-size: 20px "><fmt:formatNumber value="${prod.getPrice()}" type="currency"/></span>
-                                        <c:set var="unit" value="${prod.getUnit()}"/>
-                                        <c:if test="${not unit.equals('NG')}">
-                                            <span style="font-size: 14px">/ ${unit}</span>
-                                        </c:if>
+                                </c:if>
+                                <c:if test="${not (tmp == 1) || (counter.count == 1)}">
+                                    <div class="w3-container w3-third" id="${prod.getId()}" style="margin-bottom: 22px">
+                                        <div class="w3-card-4">
+                                            <div class="imgContainer">
+                                                <img src="${prod.getImageUrl()}" style="width: 100%" class="imgProduct" />
+                                                <div class="middle">
+                                                    <div class="text">
+                                                        <input class="w3-button w3-hover-red" type="button" value="Yêu thích" onclick="addToFavorite(${prod.getId()})"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h4>
+                                            <a href="${prod.getUrl()}" style="color: red; font-weight: bold; text-decoration: none" target="blank">${prod.getName()}</a>
+                                        </h4>
+                                        <div style="font-size: 14px">
+                                            <strong>Kích thước: </strong>
+                                            <span class="w3-tag w3-round w3-white" style="padding:3px">
+                                                <span class="w3-tag w3-round w3-white w3-border w3-border-gray">
+                                                    ${prod.getSize()} cm
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div style="font-size: 14px">
+                                            <strong>Màu: </strong>
+                                            <span class="w3-tag w3-round w3-white" style="padding:3px">
+                                                <span class="w3-tag w3-round w3-white w3-border w3-border-gray">
+                                                    ${prod.getColor()}
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div class="w3-right-align" style="font-weight: bold">
+                                            <span style="font-size: 20px "><fmt:formatNumber value="${prod.getPrice()}" type="currency"/></span>
+                                            <c:set var="unit" value="${prod.getUnit()}"/>
+                                            <c:if test="${not unit.equals('NG')}">
+                                                <span style="font-size: 14px">/ ${unit}</span>
+                                            </c:if>
+                                        </div>
                                     </div>
-                                </div>
+                                </c:if>
                             </c:forEach>
                         </div>
                     </div>
@@ -235,7 +280,7 @@
         }
 
         function addToFavorite(productID) {
-            hideItem(productID);
+//            hideItem(productID);
             xmlHttp = getXmlHttpObject();
             if (xmlHttp == null) {
                 alert("Your browser does not support AJAX!");
@@ -246,7 +291,7 @@
             xmlHttp.open("GET", url, true);
             xmlHttp.send(null);
         }
-        
+
         function hideItem(id) {
             document.getElementById(id).style.display = "none";
         }
