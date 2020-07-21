@@ -254,7 +254,7 @@
                                             </span>
                                         </div>
                                         <div class="w3-right-align" style="font-weight: bold">
-                                            <span style="font-size: 20px "><fmt:formatNumber value="" type="currency"/><x:out select="$product/Price"/></span>
+                                            <span style="font-size: 20px "><fmt:formatNumber value="" type="currency"/><x:out select="$product/Price"/> đ</span>
                                             <x:set var="unit" select="$product/Unit"/>
                                             <c:if test="${not unit.equals('NG')}">
                                                 <span style="font-size: 14px">/ <x:out select="$product/Unit" /></span>
